@@ -111,26 +111,31 @@ public record ReissueResponse(String accessToken, String refreshToken)
 
 ## ✉️ PostMan 요청 형식
 1. 로그인 요청 POST /api/auth/login
-<img width="600" height="180" alt="스크린샷 2025-10-13 오후 9 46 52" src="https://github.com/user-attachments/assets/6d214c3f-6ab7-46ee-a412-0042319f6eaf" />
-<img width="600" height="180" alt="스크린샷 2025-10-13 오후 9 47 21" src="https://github.com/user-attachments/assets/1a6920e2-2edf-4559-8646-9c377d17bb91" />
+```json
+{
+    "username": "member1",
+    "password": "pass1234"
+}
+```
 
-<br>
-<br>
+```json
+{
+    "username": "admin1",
+    "password": "pass1234"
+}
+```
+
 
 2. 프로필 조회 GET /api/users/me -> Authorization 헤더: Bearer <Access Token>
-<img width="600" height="230" alt="스크린샷 2025-10-13 오후 9 47 47" src="https://github.com/user-attachments/assets/8840eb82-1c4a-4496-90ff-a957cfdb3252" />
 
-<br>
-<br>
-<br>
 
 3. 관리자 확인 GET /api/users/admin -> Authorization 헤더: Bearer <Access Token>
-<img width="600" height="270" alt="스크린샷 2025-10-13 오후 9 48 20" src="https://github.com/user-attachments/assets/1d0cac9b-9ed7-46fc-aacf-d26f83de48dc" />
 
-<br>
-<br>
-<br>
 
 4. reissue (토큰 재발급) POST /api/auth/reissue
-<img width="600" height="200" alt="스크린샷 2025-10-13 오후 9 49 15" src="https://github.com/user-attachments/assets/ae64cea5-f411-4daa-8f77-018842ca4129" />
+```json
+  {
+      "refreshToken": "<JWT REFRESH TOKEN>"
+  }
+```
 
