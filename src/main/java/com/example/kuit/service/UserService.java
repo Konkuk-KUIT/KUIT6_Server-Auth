@@ -2,7 +2,6 @@ package com.example.kuit.service;
 
 import com.example.kuit.dto.response.LoginResponse;
 import com.example.kuit.jwt.JwtUtil;
-import com.example.kuit.model.Role;
 import com.example.kuit.model.User;
 import com.example.kuit.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +23,6 @@ public class UserService {
         }
 
         return LoginResponse.of(
-                jwtUtil.generateAccessToken(username, Role.ROLE_USER.getValue()));
+                jwtUtil.generateAccessToken(username, user.role().name()));
     }
 }
