@@ -18,9 +18,9 @@ server:
     include-binding-errors: always
 
 jwt:
-  secret: "kuit6secretkeykuit6secretkeykuit6secretkeykuit6secretkeykuit6secretkey"  # 32 ??? ??
-  access-token-expiration-ms: 360000        # 1??
-  refresh-token-expiration-ms: 1209600000   # 14?
+  secret: "kuit6secretkeykuit6secretkeykuit6secretkeykuit6secretkeykuit6secretkey"  # 32 바이트 이상
+  access-token-expiration-ms: 360000        # 6분
+  refresh-token-expiration-ms: 1209600000   # 14일
 
 logging:
   level:
