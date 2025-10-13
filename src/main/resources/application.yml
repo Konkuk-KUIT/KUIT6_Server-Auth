@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:jwt_demo;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  sql:
+    init:
+      mode: always
+
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+
+jwt:
+  secret: "kuit6secretkeykuit6secretkeykuit6secretkeykuit6secretkeykuit6secretkey"  # 32 ??? ??
+  access-token-expiration-ms: 360000        # 1??
+  refresh-token-expiration-ms: 1209600000   # 14?
+
+logging:
+  level:
+    com.example.kuit: INFO
