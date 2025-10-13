@@ -97,7 +97,7 @@ public record ReissueResponse(String accessToken, String refreshToken)
 
 ## 📚 학습 목표
 
-이 미션들을 통해 다음을 학습해보자
+이 미션들을 통해 다음을 학습해봅시다
 
 1. **JWT 토큰 기반 인증 시스템**
 2. **Role-based Authorization (RBAC)**
