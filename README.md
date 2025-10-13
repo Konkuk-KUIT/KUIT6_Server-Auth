@@ -131,6 +131,6 @@ public record ReissueResponse(String accessToken, String refreshToken)
 4. reissue (토큰 재발급) POST /api/auth/reissue
     ```json
     {
-        "refreshToken": <JWT REFRESH TOKEN>
+        "refreshToken": "<JWT REFRESH TOKEN>"
     }
     ```
