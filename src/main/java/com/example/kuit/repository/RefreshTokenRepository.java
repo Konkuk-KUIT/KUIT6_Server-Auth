@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -20,13 +21,16 @@ public class RefreshTokenRepository {
         );
     }
 
-    public String findByUsername(String username) {
+    public Optional<String> findByUsername(String username) {
         List<String> list = jdbc.query(
                 "SELECT refresh_token FROM refresh_tokens WHERE username = ?",
                 (rs, rowNum) -> rs.getString("refresh_token"),
                 username
         );
-        return list.isEmpty() ? null : list.get(0);
+
+        return list.isEmpty()
+                ? Optional.empty()
+                : Optional.of(list.get(0));
     }
 
     public void deleteByUsername(String username) {
