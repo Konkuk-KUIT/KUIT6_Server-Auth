@@ -27,7 +27,7 @@
 
 **관련 파일들**
 - `LoginResponse.java` - DTO 수정 필요
-- `UserService.java` - `login()` 메서드 수정 필요
+- `AuthService.java` - `login()` 메서드 수정 필요
 - `AuthController.java` - `login()` 메서드
 
 **구현해야 할 내용**
@@ -41,9 +41,10 @@ public record LoginResponse(String accessToken)
 public record LoginResponse(String accessToken, String refreshToken)
 ```
 
-#### 2-2. UserService의 login 메서드 수정
+#### 2-2. AuthService의 login 메서드 수정
 - `jwtUtil.generateRefreshToken()` 메서드 활용
-- RefreshToken을 DB에 저장 (`RefreshTokenRepository.save()` 활용)
+- 로그인한 유저에 대한 기존 RefreshToken, 즉 더이상 사용되지 않을 RefreshToken은 DB에서 삭제 (`RefreshTokenRepository.deleteByUsername()` 활용)
+- 새로운 RefreshToken을 DB에 저장 (`RefreshTokenRepository.save()` 활용)
 - LoginResponse에 두 토큰 모두 포함하여 반환
 
 ---
@@ -52,7 +53,7 @@ public record LoginResponse(String accessToken, String refreshToken)
 **목표**: AccessToken 만료시 RefreshToken을 활용해 AccessToken 재발급
 
 **관련 파일들**
-- `TokenService.java` - `reissue()` 메서드 구현
+- `AuthService.java` - `reissue()` 메서드 구현
 - `AuthController.java` - `reissue()` 메서드
 
 **구현해야 할 내용**
@@ -75,7 +76,7 @@ public record LoginResponse(String accessToken, String refreshToken)
 
 **관련 파일들**
 - `ReissueResponse.java` - DTO 수정 필요
-- `TokenService.java` - `reissue()` 메서드 확장
+- `AuthService.java` - `reissue()` 메서드 확장
 
 **구현해야 할 내용**
 
@@ -88,7 +89,7 @@ public record ReissueResponse(String accessToken)
 public record ReissueResponse(String accessToken, String refreshToken)
 ```
 
-#### 4-2. TokenService의 reissue 메서드 확장
+#### 4-2. AuthService의 reissue 메서드 확장
 - AccessToken 재발급과 함께 새로운 RefreshToken도 발급
 - 기존 RefreshToken 삭제 후 새로운 RefreshToken DB 저장
 - 보안성 향상을 위한 토큰 로테이션 구현
@@ -139,3 +140,6 @@ public record ReissueResponse(String accessToken, String refreshToken)
   }
 ```
 
+---
+
+## ⚠️ 주의 사항
