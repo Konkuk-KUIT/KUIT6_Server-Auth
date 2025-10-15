@@ -3,8 +3,7 @@ import com.example.kuit.dto.request.LoginRequest;
 import com.example.kuit.dto.request.ReissueRequest;
 import com.example.kuit.dto.response.LoginResponse;
 import com.example.kuit.dto.response.ReissueResponse;
-import com.example.kuit.service.TokenService;
-import com.example.kuit.service.UserService;
+import com.example.kuit.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final UserService userService;
-    private final TokenService tokenService;
+    private final AuthService authService;
 
     /**
      * 요청 형식
@@ -35,7 +33,7 @@ public class AuthController {
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
 
         // TODO: 로그인 성공시 RefreshToken 까지 발급해보기
-        LoginResponse response = userService.login(request.username(), request.password());
+        LoginResponse response = authService.login(request.username(), request.password());
 
         return ResponseEntity.ok(response);
     }
@@ -51,7 +49,7 @@ public class AuthController {
     @PostMapping("/reissue")
     public ResponseEntity<ReissueResponse> reissue(@RequestBody ReissueRequest request) {
         // TODO: reissue API 완성하기
-        ReissueResponse response = tokenService.reissue(request.refreshToken());
+        ReissueResponse response = authService.reissue(request.refreshToken());
 
         return ResponseEntity.ok(response);
     }
