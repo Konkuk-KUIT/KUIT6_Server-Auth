@@ -4,11 +4,14 @@ import com.example.kuit.dto.response.LoginResponse;
 import com.example.kuit.dto.response.ReissueResponse;
 import com.example.kuit.jwt.JwtUtil;
 import com.example.kuit.model.Role;
+import com.example.kuit.model.RefreshToken;
 import com.example.kuit.model.User;
 import com.example.kuit.repository.RefreshTokenRepository;
 import com.example.kuit.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 
@@ -37,20 +40,28 @@ public class AuthService {
         Instant refreshExp = jwtUtil.getExpiration(refreshToken);
 
         // DB 에 리프레시 토큰 저장
-        refreshTokenRepository.save(username, refreshToken, refreshExp);
+        refreshTokenRepository.save(new RefreshToken(username, refreshToken, refreshExp));
 
         // 리프레시 토큰까지 발급
         return LoginResponse.of(accessToken, refreshToken);
     }
 
     public ReissueResponse reissue(String username, Role role, String refreshToken) {
-        // TODO: DB에 RefreshToken 존재 여부 확인 - refreshTokenRepository.findByUsername 메서드 활용
+        RefreshToken storedRefreshToken = refreshTokenRepository.findByUsername(username)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "리프레시 토큰이 존재하지 않습니다."));
 
-        // TODO: DB에 저장되어있는 토큰의 만료 여부 검사 - refresh
+        if(storedRefreshToken.isExpired()) {
+            refreshTokenRepository.deleteByUsername(username);
 
-        // TODO: DB에 저장되어있는 토큰과 요청으로 받은 토큰의 동일 여부 검사
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "리프레시 토큰이 만료되었습니다.");
+        }
 
-        // TODO: AccessToken 재발급
-        return ReissueResponse.of("accessToken");
+        if (!storedRefreshToken.token().equals(refreshToken)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "잘못된 리프레시 토큰입니다.");
+        }
+
+        String newAccessToken = jwtUtil.generateAccessToken(username, role.name());
+
+        return ReissueResponse.of(newAccessToken);
     }
 }
