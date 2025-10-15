@@ -66,13 +66,13 @@ public class JwtUtil {
                 .getPayload().getSubject();
     }
 
-    public String getRole(String token) {
+    public Role getRole(String token) {
         Object role = Jwts.parser().verifyWith(key).build()
                 .parseSignedClaims(token)
                 .getPayload()
                 .get("role");
 
-        return role == null ? null : Role.valueOf(role.toString()).getValue();
+        return role == null ? null : Role.valueOf(role.toString());
     }
 
     public TokenType getTokenType(String token) {
