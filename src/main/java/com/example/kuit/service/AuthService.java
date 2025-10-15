@@ -3,6 +3,7 @@ package com.example.kuit.service;
 import com.example.kuit.dto.response.LoginResponse;
 import com.example.kuit.dto.response.ReissueResponse;
 import com.example.kuit.jwt.JwtUtil;
+import com.example.kuit.model.Role;
 import com.example.kuit.model.User;
 import com.example.kuit.repository.RefreshTokenRepository;
 import com.example.kuit.repository.UserRepository;
@@ -30,12 +31,12 @@ public class AuthService {
         return LoginResponse.of(accessToken);
     }
 
-    public ReissueResponse reissue(String username, String refreshToken) {
+    public ReissueResponse reissue(String username, Role role, String refreshToken) {
         // TODO: DB에 RefreshToken 존재 여부 확인 - refreshTokenRepository.findByUsername 메서드 활용
 
-        // TODO: 토큰 만료 여부 검사
+        // TODO: DB에 저장되어있는 토큰의 만료 여부 검사 - refresh
 
-        // TODO: 토큰 동일 여부 검사
+        // TODO: DB에 저장되어있는 토큰과 요청으로 받은 토큰의 동일 여부 검사
 
         // TODO: AccessToken 재발급
         return ReissueResponse.of("accessToken");
