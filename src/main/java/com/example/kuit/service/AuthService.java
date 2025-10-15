@@ -31,12 +31,6 @@ public class AuthService {
     }
 
     public ReissueResponse reissue(String refreshToken) {
-        // TODO: 토큰 추출 - extractBearer 메서드 활용
-
-        // TODO: 토큰 유효성 검사 - jwtUtil.validate 메서드 활용
-
-        // TODO: 토큰 타입 검사 - jwtUtil.getTokenType 메서드 활용
-
         // TODO: DB에 RefreshToken 존재 여부 확인
 
         // TODO: 토큰 만료 여부 검사

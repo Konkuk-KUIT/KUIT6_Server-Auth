@@ -48,7 +48,11 @@ public class AuthController {
      */
     @PostMapping("/reissue")
     public ResponseEntity<ReissueResponse> reissue(@RequestBody ReissueRequest request) {
-        // TODO: reissue API 완성하기
+        // TODO: 토큰 유효성 검사 - jwtUtil.validate 메서드 활용
+
+        // TODO: 토큰 타입 검사 - jwtUtil.getTokenType 메서드 활용
+
+        // TODO: reissue API 완성
         ReissueResponse response = authService.reissue(request.refreshToken());
 
         return ResponseEntity.ok(response);
