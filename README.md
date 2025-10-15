@@ -139,7 +139,3 @@ public record ReissueResponse(String accessToken, String refreshToken)
       "refreshToken": "<JWT REFRESH TOKEN>"
   }
 ```
-
----
-
-## ⚠️ 주의 사항
