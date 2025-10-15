@@ -39,6 +39,9 @@ public class AuthService {
         // 만료 시간 추출
         Instant refreshExp = jwtUtil.getExpiration(refreshToken);
 
+        // DB 에 존재하는 기존 리프레시 토큰 삭제
+        refreshTokenRepository.deleteByUsername(username);
+
         // DB 에 리프레시 토큰 저장
         refreshTokenRepository.save(new RefreshToken(username, refreshToken, refreshExp));
 
