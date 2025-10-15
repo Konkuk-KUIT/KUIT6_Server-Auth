@@ -10,6 +10,8 @@ import com.example.kuit.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -28,7 +30,17 @@ public class AuthService {
 
         String accessToken = jwtUtil.generateAccessToken(username, user.role().name());
 
-        return LoginResponse.of(accessToken);
+        // 리프레시 토큰 생성
+        String refreshToken = jwtUtil.generateRefreshToken(username, user.role().name());
+
+        // 만료 시간 추출
+        Instant refreshExp = jwtUtil.getExpiration(refreshToken);
+
+        // DB 에 리프레시 토큰 저장
+        refreshTokenRepository.save(username, refreshToken, refreshExp);
+
+        // 리프레시 토큰까지 발급
+        return LoginResponse.of(accessToken, refreshToken);
     }
 
     public ReissueResponse reissue(String username, Role role, String refreshToken) {
