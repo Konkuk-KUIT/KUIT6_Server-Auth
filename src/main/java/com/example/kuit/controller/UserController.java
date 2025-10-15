@@ -4,10 +4,12 @@ import com.example.kuit.dto.response.AdminResponse;
 import com.example.kuit.dto.response.ProfileResponse;
 import com.example.kuit.jwt.JwtUtil;
 import com.example.kuit.model.TokenType;
+import com.example.kuit.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,14 +22,15 @@ import org.springframework.web.server.ResponseStatusException;
 public class UserController {
 
     private final JwtUtil jwtUtil;
+    private final UserService userService;
 
-    // GET /api/users/me  - 프로필 조회 API
+    // GET /api/users/me  - 나의 프로필 조회 API (인가 불필요)
     /**
      * 요청 형식
         Authorization 헤더: Bearer <Access Token>
      */
     @GetMapping("/me")
-    public ProfileResponse me(HttpServletRequest request) {
+    public ResponseEntity<ProfileResponse> me(HttpServletRequest request) {
         String token = extractBearer(request);
 
         if (!jwtUtil.validate(token)) {
@@ -38,10 +41,9 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Access Token 이 필요합니다.");
         }
 
-        String username = jwtUtil.getUsername(token);
-        String role = jwtUtil.getRole(token);
+        ProfileResponse profile = userService.getProfile(jwtUtil.getUsername(token));
 
-        return ProfileResponse.of(username, role);
+        return ResponseEntity.ok(profile);
     }
 
     // GET /api/users/admin - 관리자 확인 API (인가 필요)
@@ -50,7 +52,7 @@ public class UserController {
         Authorization 헤더: Bearer <Access Token>
      */
     @GetMapping("/admin")
-    public AdminResponse admin(HttpServletRequest request) {
+    public ResponseEntity<AdminResponse> admin(HttpServletRequest request) {
         // TODO: 토큰 추출 - extractBearer 메서드 활용
 
         // TODO: 토큰 유효성 검사 - jwtUtil.validate 메서드 활용
@@ -61,7 +63,7 @@ public class UserController {
 
         // TODO: 관리자 권한 검사 - 토큰으로부터 추출한 Role 이 Role.ROLE_ADMIN 과 동일한지 검증
 
-        return AdminResponse.ok();
+        return ResponseEntity.ok(AdminResponse.ok());
     }
 
     // 헤더로부터 토큰 추출
