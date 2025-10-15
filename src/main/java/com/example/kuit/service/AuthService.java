@@ -62,6 +62,17 @@ public class AuthService {
 
         String newAccessToken = jwtUtil.generateAccessToken(username, role.name());
 
-        return ReissueResponse.of(newAccessToken);
+        // RefreshToken Rotation
+        String newRefreshToken = jwtUtil.generateRefreshToken(username, role.name());
+
+        Instant refreshExp = jwtUtil.getExpiration(newRefreshToken);
+
+        // 기존 리프레시 토큰 삭제
+        refreshTokenRepository.deleteByUsername(username);
+
+        // 새로운 리프레시 토큰 저장
+        refreshTokenRepository.save(new RefreshToken(username, newRefreshToken, refreshExp));
+
+        return ReissueResponse.of(newAccessToken, newRefreshToken);
     }
 }
