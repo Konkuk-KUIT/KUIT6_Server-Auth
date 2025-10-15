@@ -30,10 +30,12 @@ public class AuthService {
         return LoginResponse.of(accessToken);
     }
 
-    public ReissueResponse reissue(String username) {
+    public ReissueResponse reissue(String username, String refreshToken) {
         // TODO: DB에 RefreshToken 존재 여부 확인 - refreshTokenRepository.findByUsername 메서드 활용
 
         // TODO: 토큰 만료 여부 검사
+
+        // TODO: 토큰 동일 여부 검사
 
         // TODO: AccessToken 재발급
         return ReissueResponse.of("accessToken");

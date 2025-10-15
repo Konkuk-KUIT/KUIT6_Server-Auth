@@ -53,7 +53,7 @@ public class AuthController {
         // TODO: 토큰 타입 검사 - jwtUtil.getTokenType 메서드 활용
 
         // TODO: reissue API 완성
-        ReissueResponse response = authService.reissue("토큰에서 추출한 username 넘기기");
+        ReissueResponse response = authService.reissue("토큰에서 추출한 username 넘기기", request.refreshToken());
 
         return ResponseEntity.ok(response);
     }
