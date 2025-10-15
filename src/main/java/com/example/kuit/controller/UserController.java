@@ -37,7 +37,7 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.");
         }
 
-        if (!jwtUtil.getTokenType(token).equals(TokenType.ACCESS)) {
+        if (jwtUtil.getTokenType(token) != TokenType.ACCESS) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Access Token 이 필요합니다.");
         }
 
