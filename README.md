@@ -125,12 +125,19 @@ public record ReissueResponse(String accessToken, String refreshToken)
     "password": "pass1234"
 }
 ```
+<img width="1306" height="277" alt="스크린샷 2025-10-20 오전 1 44 32" src="https://github.com/user-attachments/assets/03276c1e-e3d1-4d93-852b-b56426c59c56" />
 
+<br><br>
 
 2. 프로필 조회 GET /api/users/me -> Authorization 헤더: Bearer <Access Token>
 
 
 3. 관리자 확인 GET /api/users/admin -> Authorization 헤더: Bearer <Access Token>
+
+<img width="1298" height="374" alt="스크린샷 2025-10-20 오전 1 42 51" src="https://github.com/user-attachments/assets/7ce8c9a5-7632-433d-b8b2-6f2300ac530d" />
+
+
+<br><br>
 
 
 4. reissue (토큰 재발급) POST /api/auth/reissue
@@ -139,3 +146,4 @@ public record ReissueResponse(String accessToken, String refreshToken)
       "refreshToken": "<JWT REFRESH TOKEN>"
   }
 ```
+<img width="1304" height="295" alt="스크린샷 2025-10-20 오전 1 44 06" src="https://github.com/user-attachments/assets/98f1ad0b-b20f-43e2-8e0b-d157ccc7613b" />
