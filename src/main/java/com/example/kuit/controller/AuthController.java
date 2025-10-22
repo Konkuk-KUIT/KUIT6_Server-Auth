@@ -16,6 +16,7 @@ public class AuthController {
 
     private final AuthService authService;
 
+    // POST /api/auth/login  - 로그인 API
     /**
      * 요청 형식
      1. 일반 유저 로그인
@@ -39,6 +40,7 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    // POST /api/auth/reissue  - 토큰 재발급 API
     /**
      * 요청 형식
         {
