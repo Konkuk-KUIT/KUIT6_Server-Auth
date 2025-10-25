@@ -32,17 +32,9 @@ public class UserController {
      */
     @GetMapping("/me")
     public ResponseEntity<ProfileResponse> me(HttpServletRequest request) {
-        String token = extractBearer(request);
+        String username = (String) request.getAttribute("username");
 
-        if (!jwtUtil.validate(token)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.");
-        }
-
-        if (jwtUtil.getTokenType(token) != TokenType.ACCESS) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Access Token 이 필요합니다.");
-        }
-
-        ProfileResponse profile = userService.getProfile(jwtUtil.getUsername(token));
+        ProfileResponse profile = userService.getProfile(username);
 
         return ResponseEntity.ok(profile);
     }
@@ -54,32 +46,6 @@ public class UserController {
      */
     @GetMapping("/admin")
     public ResponseEntity<AdminResponse> admin(HttpServletRequest request) {
-        String token = extractBearer(request);
-
-        if (!jwtUtil.validate(token)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.");
-        }
-
-        if (jwtUtil.getTokenType(token) != TokenType.ACCESS) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Access Token 이 필요합니다.");
-        }
-
-        Role role = jwtUtil.getRole(token);
-
-        if(role != Role.ROLE_ADMIN) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "관리자 권한이 필요합니다.");
-        }
-
         return ResponseEntity.ok(AdminResponse.ok());
-    }
-
-    // 헤더로부터 토큰 추출
-    private String extractBearer(HttpServletRequest request) {
-        String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-
-        if (!StringUtils.hasText(header) || !header.startsWith("Bearer ")) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authorization 헤더 전송 형식이 잘못되었습니다.");
-        }
-        return header.substring(7);
     }
 }
