@@ -21,7 +21,7 @@ public class AuthInterceptor implements HandlerInterceptor {
      * 2) JwtUtil.validate(...) 로 유효성 검사 (만료/위변조 등)
      * 3) 토큰 타입이 ACCESS 인지 확인 (REFRESH 요청은 제외 대상)
      * 4) username/role 을 request attribute 로 저장 (컨트롤러에서 사용)
-     * 5) 실패 시 401/403 으로 단일화하여 차단
+     * 5) 실패 시 401로 단일화하여 차단
      * -> 참고 : /api/auth/** (login/reissue)는 인터셉터 제외. 별도로 처리할 것
      */
     @Override

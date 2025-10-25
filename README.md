@@ -108,10 +108,10 @@ public record ReissueResponse(String accessToken, String refreshToken)
 2.	JwtUtil.validate() 메서드로 토큰 유효성 검증
 3.	JwtUtil.getTokenType() 으로 Access Token 인지 확인
 4.	검증이 완료되면 username, role 정보를 request attribute 로 저장
-5.	실패 시 401(UNAUTHORIZED) 또는 403(FORBIDDEN) 상태 코드 반환
+5.	실패 시 401(UNAUTHORIZED) 상태 코드 반환
 
 **요구사항**
-- 컨트롤러마다 중복되는 인증 코드를 제거하고, 공통 로직을 인터셉터로 분리하여 관리할 수 있도록 구현합니다.
+- 컨트롤러마다 중복되는 인증 코드를 제거하고, 공통 로직을 인터셉터로 분리하여 관리할 수 있도록 구현
 
 ---
 
@@ -129,7 +129,7 @@ public record ReissueResponse(String accessToken, String refreshToken)
 
 **요구사항**
 - Role 검사 로직을 컨트롤러에서 분리해보자.
-- 인터셉터가 `ROLE_ADMIN`만 통과시키고 나머지는 403으로 막아야 한다.
+- 인터셉터가 `ROLE_ADMIN`만 통과시키고 나머지는 403으로 막도록 구현
 
 ---
 
